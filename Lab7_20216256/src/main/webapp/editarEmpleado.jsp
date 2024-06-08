@@ -9,9 +9,13 @@
 <%@ page import="org.example.lab6_20216256.beans.Employees" %>
 <%@ page import="org.example.lab6_20216256.beans.Jobs" %>
 <%@ page import="org.example.lab6_20216256.beans.Departments" %>
+<%@ page import="java.util.ArrayList" %>
 <%
     Employees employee = (Employees) request.getAttribute("employee");
 %>
+<%ArrayList<Jobs> jobs = (ArrayList<Jobs>) request.getAttribute("jobs");%>
+
+<%ArrayList<Employees> jefes = (ArrayList<Employees>) request.getAttribute("jefes");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,19 +72,6 @@
                 <option value="<%= manager.getEmployeeId() %>"><%= manager.getFullNameEmployee() %></option>
                 <% } %>
                 <% } %>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="department_id">Departamento:</label>
-            <select id="department_id" name="department_id" class = "form-control" required>
-                <%
-                    for (Departments department : lista_departamentos) {
-                %>
-                <option value="<%= department.getDepartmentId() %>" <%= employee.getDepartmentId().equals(department.getDepartmentName()) ? "selected" : "" %>><%=department.getDepartmentName()%></option>
-                <%
-                    }
-                %>
             </select>
         </div>
     </div>

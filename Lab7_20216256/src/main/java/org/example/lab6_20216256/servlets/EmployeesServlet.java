@@ -8,7 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.lab6_20216256.beans.Employees;
 import org.example.lab6_20216256.daos.DaoEmployee;
-
+import org.example.lab6_20216256.daos.DaoJobs;
+import org.example.lab6_20216256.beans.Jobs;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -30,9 +31,28 @@ public class EmployeesServlet extends HttpServlet {
             if (action.equals("edit")) {
                 int employeeId = Integer.parseInt(request.getParameter("id"));
                 Employees employee = dao.getEmployeePorId(employeeId);
+                DaoEmployee daoEmployee = new DaoEmployee();
+                DaoJobs job= new DaoJobs();
+
+
+                Employees employeeEdit = daoEmployee.getEmployeePorId(employeeId);
+                request.setAttribute("employeeE", employeeEdit);
+
+                ArrayList<Jobs> listaTrabajosU = job.listarJobs();
+                request.setAttribute("jobs", listaTrabajosU);
+
+
+
+
+                ArrayList<Employees> listaJefesU = daoEmployee.listarEmployees();
+                request.setAttribute("jefes", listaJefesU);
+
                 request.setAttribute("employee", employee);
                 RequestDispatcher view = request.getRequestDispatcher("editarEmpleado.jsp");
                 view.forward(request, response);
+
+
+
             } else if (action.equals("add")) {
                 RequestDispatcher view = request.getRequestDispatcher("agregarEmpleado.jsp");
                 view.forward(request, response);
@@ -106,8 +126,8 @@ public class EmployeesServlet extends HttpServlet {
             if (fContratacion != null && !fContratacion.isEmpty()) {
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                //Date hire_date = formatter.parse(fContratacion);
-                //employee.setHireDate(hire_date);
+                Date hire_date = formatter.parse(fContratacion);
+                employee.setHireDate(hire_date);
 
             }
 
